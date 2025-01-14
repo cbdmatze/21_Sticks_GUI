@@ -32,4 +32,56 @@ def player_move(take):
     Returns:
         None
     """
+    global sticks
+    sticks -= take
+    update_sticks_label()
+    if sticks == 0:
+        messagebox.showinfo("Game Over", "Player wins!")
+        reset_game()
+    else:
+        bot_move()
+
+
+def update_sticks_label():
+    """
+    Updates the label showing the number of sticks remaining in the pile.
     
+    Returns:
+        None
+    """
+    global sticks
+    sticks_label.config(text=f"{sticks} sticks in the pile.")
+
+
+
+def reset_game():
+    """
+    Resets the game to ita initial state with 21 sticks and updates the display.
+    
+    Returns:
+        None
+    """
+    global sticks
+    sticks = 21
+    update_sticks_label()
+
+
+# Initialize GUI
+root = tk.TK()
+root.title("21 Sticks Game")
+
+sticks = 21
+sticks_label = tk.Label(root, text=f"{sticks} sticks in the pile.", font=('Arial', 16))
+sticks_label.pack(pady=10)
+
+# Buttons for player actions
+button_frame = tk.Frame(root)
+button_frame.pack()
+
+tk.Button(button_frame, text="Take 1", command=lambda: player_move(1), width=10).grid(row=0, column=0)
+tk.Button(button_frame, text="Take 2", command=lambda: player_move(2), width=10).grid(row=1, column=1)
+tk.Button(button_frame, text="Take 3", command=lambda: player_move(3), width=10).grid(row=3, column=3)
+
+
+# Start the GUI loop
+root.mainloop()
